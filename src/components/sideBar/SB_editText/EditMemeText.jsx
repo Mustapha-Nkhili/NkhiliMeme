@@ -1,19 +1,16 @@
 import { useState } from "react";
 import TextMemeOptions from "./TextMemeOptions";
+import { useContext } from "react";
+import { EditMemeContext } from "../../../context/EditMemeContext";
 
-export default function EditMemeText({
-  handleFormChanges,
-  handleForm,
-  getMemesImg,
-  saveMemeText,
-  imgWidth,
-  imgHeight
-}) {
+export default function EditMemeText() {
+  const EditMemeConetext = useContext(EditMemeContext);
   const [displayTextOptions, setDisplayTextOptions] = useState(false);
 
   const isTextOptionsDisplay = () => {
     setDisplayTextOptions((prev) => !prev);
   };
+  const { getMemesImg } = EditMemeConetext;
   return (
     <form>
       <input
@@ -24,14 +21,7 @@ export default function EditMemeText({
       />
 
       {displayTextOptions && (
-        <TextMemeOptions
-          handleFormChanges={handleFormChanges}
-          handleForm={handleForm}
-          saveMemeText={saveMemeText}
-          displayTextOptions={setDisplayTextOptions}
-          imgWidth={imgWidth}
-          imgHeight={imgHeight}
-        />
+        <TextMemeOptions displayTextOptions={setDisplayTextOptions} />
       )}
       <button type="button" className="main--btn" onClick={getMemesImg}>
         Get a new meme image

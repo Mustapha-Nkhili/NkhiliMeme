@@ -6,22 +6,23 @@ import SideBarItem from "./SideBarItem";
 // font awesome icons
 import { faFont, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 
-export default function EditMeme(props) {
+export default function EditMeme() {
   const [detailsActive, setDetailsActive] = useState("text");
   const sideBarItemsContainer = useRef();
 
   const showMemeDetails = (e) => {
-    const sideBarItemsArray = Array.from(sideBarItemsContainer.current.children);
+    const sideBarItemsArray = Array.from(
+      sideBarItemsContainer.current.children
+    );
     sideBarItemsArray.forEach((item) => {
-      item.classList.remove("active")
+      item.classList.remove("active");
     });
-    console.log(sideBarItemsArray)
     if (e.target.parentElement.nodeName === "BUTTON") {
       setDetailsActive(e.target.parentElement.name);
-      e.target.parentElement.classList.add("active");
+      e.target.parentElement.classList.toggle("active");
     } else {
       setDetailsActive(e.target.name);
-      e.target.classList.add("active");
+      e.target.classList.toggle("active");
     }
   };
 
@@ -48,30 +49,15 @@ export default function EditMeme(props) {
               icon={item.icon}
               handleClick={item.handleClick}
               key={index}
+              index={index}
             />
           );
         })}
       </aside>
       <div className="details">
-        {detailsActive === "text" && (
-          <EditMemeText
-            handleForm={props.handleForm}
-            handleFormChanges={props.handleFormChanges}
-            getMemesImg={props.getMemesImg}
-            saveMemeText={props.saveMemeText}
-            imgWidth={props.imgWidth}
-            imgHeight={props.imgHeight}
-          />
-        )}
+        {detailsActive === "text" && <EditMemeText />}
 
-        {detailsActive === "rotate" && (
-          <EditMemeRotate
-            rotateImg={props.rotateImg}
-            imgWidth={props.imgWidth}
-            imgHeight={props.imgHeight}
-            resizeImg={props.resizeImg}
-          />
-        )}
+        {detailsActive === "rotate" && <EditMemeRotate />}
       </div>
     </section>
   );

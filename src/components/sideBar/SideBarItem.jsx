@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function SideBarItems({ name, icon, handleClick }) {
+export default function SideBarItems({ name, icon, handleClick, index }) {
   return (
     <button
       type="button"
-      className="bar-btn-container"
+      className={`bar-btn-container ${index === 0 ? "active" : ""}`}
       onClick={handleClick}
       name={name}
     >

@@ -10,16 +10,12 @@ import {
   faUnderline,
   faCircleArrowDown,
 } from "@fortawesome/free-solid-svg-icons";
-// import { useRef } from "react";
+import { EditMemeContext } from "../../../context/EditMemeContext";
+import { useContext } from "react";
 
-export default function TextMemeOptions({
-  handleFormChanges,
-  handleForm,
-  saveMemeText,
-  displayTextOptions,
-  imgWidth,
-  imgHeight,
-}) {
+export default function TextMemeOptions({ displayTextOptions }) {
+  const { handleForm, handleFormChanges, imgAdjustments } =
+    useContext(EditMemeContext);
   return (
     <>
       <div className="text-options">
@@ -200,7 +196,7 @@ export default function TextMemeOptions({
         <input
           type="range"
           min="0"
-          max={imgWidth}
+          max={imgAdjustments.width}
           step="1"
           name="textPositionX"
           id="textPositionX"
@@ -224,10 +220,9 @@ export default function TextMemeOptions({
           value={handleForm.textPositionY}
           onChange={handleFormChanges}
         />
-        {console.log(handleForm.textPositionY)}
       </div>
       <SaveMemeText
-        saveMemeText={saveMemeText}
+        // saveMemeText={saveMemeText}
         displayTextOptions={displayTextOptions}
       />
     </>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import EditMeme from "./sideBar/EditMeme";
 import Meme from "./Meme";
 import memeImg from "../assets/confused-guy-meme.jpg";
+import { EditMemeContext } from "../context/EditMemeContext";
 
 const DEFAULT_MEME_TEXT_STYLES = {
   memeText: [],
@@ -12,22 +13,21 @@ const DEFAULT_MEME_TEXT_STYLES = {
   bold: true,
   underLine: false,
   color: "#ffffff",
-  fontSize: "38.4",
-  letterSpacing: "1",
-  textPositionX: "200",
+  fontSize: 38.4,
+  letterSpacing: 1,
+  textPositionX: 200,
   textPositionY: 5,
 };
 
 export default function MemeGenerator() {
   const [isTextHidden, setTextHidden] = useState(true);
   const [memes, setMemes] = useState([]);
-  const [handleForm, setHandleFrorm] = useState({
+  const [handleForm, setHandleForm] = useState({
     ...DEFAULT_MEME_TEXT_STYLES,
     randomImg: memeImg,
     randomImgALt: "confused guy",
   });
 
-  // const [memeTextArray, setMemeTextArray] = useState([]);
   const [memeTextStyleArray, setMemeTextStyleArray] = useState([]);
 
   const [imgAdjustments, setImgAdjustments] = useState({
@@ -39,7 +39,7 @@ export default function MemeGenerator() {
   const handleFormChanges = (e) => {
     const { name, value, type, checked } = e.target;
 
-    setHandleFrorm((prev) => ({
+    setHandleForm((prev) => ({
       ...prev,
       [name]:
         type === "button"
@@ -49,7 +49,7 @@ export default function MemeGenerator() {
           : value,
     }));
 
-    if (handleForm.memeText !== "") {
+    if (handleForm.memeText.length > 0) {
       setTextHidden(false);
     } else {
       setTextHidden(true);
@@ -61,7 +61,7 @@ export default function MemeGenerator() {
     const url = memes[randomNumber].url;
     const alt = memes[randomNumber].name;
 
-    setHandleFrorm((prev) => {
+    setHandleForm((prev) => {
       return {
         ...prev,
         randomImg: url,
@@ -90,13 +90,12 @@ export default function MemeGenerator() {
   }
 
   function saveMemeText(hideEdit) {
-    if (handleForm.memeText !== "") {
-      console.log(handleForm.randomImg);
+    if (handleForm.memeText.length > 0) {
       setMemeTextStyleArray((prev) => [...prev, handleForm]);
 
       hideEdit((prev) => !prev);
-      setHandleFrorm(DEFAULT_MEME_TEXT_STYLES);
-      setHandleFrorm((prev) => ({
+      setHandleForm(DEFAULT_MEME_TEXT_STYLES);
+      setHandleForm((prev) => ({
         ...prev,
         memeText: "",
         randomImg: handleForm.randomImg,
@@ -105,29 +104,24 @@ export default function MemeGenerator() {
     }
   }
 
+  const contextValue = {
+    handleForm,
+    handleFormChanges,
+    getMemesImg,
+    imgAdjustments,
+    saveMemeText,
+    rotateImg,
+    resizeImg,
+  };
   return (
-    <main className="main">
-      <EditMeme
-        handleForm={{ ...handleForm }}
-        handleFormChanges={handleFormChanges}
-        getMemesImg={getMemesImg}
-        rotateImg={rotateImg}
-        imgWidth={imgAdjustments.width}
-        imgHeight={imgAdjustments.height}
-        resizeImg={resizeImg}
-        saveMemeText={saveMemeText}
-      />
-      <Meme
-        isTextHidden={isTextHidden}
-        handleForm={{ ...handleForm }}
-        imgUrl={handleForm.randomImg}
-        imgALt={handleForm.randomImgALt}
-        rotate={imgAdjustments.rotate}
-        imgWidth={imgAdjustments.width}
-        imgHeight={imgAdjustments.height}
-        // memeTextArray={memeTextArray}
-        memeTextStyleArray={memeTextStyleArray}
-      />
-    </main>
+    <EditMemeContext.Provider value={contextValue}>
+      <main className="main">
+        <EditMeme />
+        <Meme
+          isTextHidden={isTextHidden}
+          memeTextStyleArray={memeTextStyleArray}
+        />
+      </main>
+    </EditMemeContext.Provider>
   );
 }

@@ -1,25 +1,18 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import domtoimage from "dom-to-image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { EditMemeContext } from "../context/EditMemeContext";
 
-export default function Meme({
-  imgUrl,
-  imgAlt,
-  isTextHidden,
-  handleForm,
-  rotate,
-  imgWidth,
-  imgHeight,
-  memeTextStyleArray,
-}) {
+export default function Meme({ isTextHidden, memeTextStyleArray }) {
+  const { handleForm, imgAdjustments } = useContext(EditMemeContext);
   const memeTextContainer = useRef(null);
   const memeContainer = useRef(null);
 
   const imgStyles = {
-    transform: `rotate(${rotate}deg)`,
-    width: `${imgWidth}px`,
-    height: `${imgHeight}px`,
+    transform: `rotate(${imgAdjustments.rotate}deg)`,
+    width: `${imgAdjustments.width}px`,
+    height: `${imgAdjustments.height}px`,
   };
 
   function Memestyles(stylesHolder) {
@@ -46,7 +39,7 @@ export default function Meme({
       .toPng(container)
       .then((dataUrl) => {
         a.href = dataUrl;
-        a.download = "meme-img.png";
+        a.download = "meme img.png";
         a.click();
         a.remove();
       })
@@ -59,9 +52,9 @@ export default function Meme({
     <section className="meme">
       <div className="img-container" style={imgStyles} ref={memeContainer}>
         <img
-          src={imgUrl}
+          src={handleForm.randomImg}
           className="main--img"
-          alt={imgAlt}
+          alt={handleForm.randomImgALt}
           draggable="false"
         />
         {memeTextStyleArray.map((meme, index) => {
