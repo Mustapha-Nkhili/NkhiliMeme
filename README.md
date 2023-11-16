@@ -1,6 +1,7 @@
 # NkhiliMeme - Meme Generator
 
-![Screenshot (98)](https://github-production-user-asset-6210df.s3.amazonaws.com/127800851/275237573-9a88f836-50de-4bf1-973d-ebbd0812688b.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIWNJYAX4CSVEH53A%2F20231014%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20231014T144314Z&X-Amz-Expires=300&X-Amz-Signature=e1f5cdd4e065860d246788ec82eee6c5104200ebb73c18a462a226321e72075d&X-Amz-SignedHeaders=host&actor_id=127800851&key_id=0&repo_id=704896563)
+![Screenshot of the project](https://github.com/Mustapha-Nkhili/NkhiliMeme/assets/127800851/aa10a117-acfb-4b7a-8a97-a65f914c9020)
+
 
 NkhiliMeme is a meme generator built with React and Vite. It allows users to create and customize memes using their own images and text. This project utilizes the dom-to-image library to convert the meme preview (the hole container of the meme) into an image that can be easily downloaded, and use the API of the imgflip to get popular memes img (blank).
 
